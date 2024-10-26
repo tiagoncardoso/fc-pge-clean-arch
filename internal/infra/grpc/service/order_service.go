@@ -31,7 +31,6 @@ func (s *OrderService) CreateOrder(ctx context.Context, in *pb.CreateOrderReques
 	return &pb.CreateOrderResponse{
 		Id:         output.ID,
 		Price:      float32(output.Price),
-		Tax:        float32(output.Tax),
 		FinalPrice: float32(output.FinalPrice),
 	}, nil
 }
