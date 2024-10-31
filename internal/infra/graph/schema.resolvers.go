@@ -6,24 +6,64 @@ package graph
 
 import (
 	"context"
-	"fmt"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/dto"
 
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/infra/graph/model"
 )
 
 // CreateOrder is the resolver for the createOrder field.
 func (r *mutationResolver) CreateOrder(ctx context.Context, input *model.OrderInput) (*model.Order, error) {
-	panic(fmt.Errorf("not implemented: CreateOrder - createOrder"))
+	orderDTO := dto.OrderInputDTO{
+		ID:    input.ID,
+		Price: input.Price,
+		Tax:   input.Tax,
+	}
+	output, err := r.CreateOrderUseCase.Execute(orderDTO)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.Order{
+		ID:         output.ID,
+		Price:      output.Price,
+		Tax:        output.Tax,
+		FinalPrice: output.FinalPrice,
+	}, nil
 }
 
 // ListOrder is the resolver for the listOrder field.
 func (r *queryResolver) ListOrder(ctx context.Context, id string) (*model.Order, error) {
-	panic(fmt.Errorf("not implemented: ListOrder - listOrder"))
+	order, err := r.GetOrderByIdUseCase.Execute(id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &model.Order{
+		ID:         order.ID,
+		Price:      order.Price,
+		Tax:        order.Tax,
+		FinalPrice: order.FinalPrice,
+	}, nil
 }
 
 // ListOrders is the resolver for the listOrders field.
 func (r *queryResolver) ListOrders(ctx context.Context) ([]*model.Order, error) {
-	panic(fmt.Errorf("not implemented: ListOrders - listOrders"))
+	orders, err := r.GetOrdersUseCase.Execute()
+	if err != nil {
+		return nil, err
+	}
+
+	var ordersModel []*model.Order
+	for _, order := range orders {
+		ordersModel = append(ordersModel, &model.Order{
+			ID:         order.ID,
+			Price:      order.Price,
+			Tax:        order.Tax,
+			FinalPrice: order.FinalPrice,
+		})
+	}
+
+	return ordersModel, nil
 }
 
 // Mutation returns MutationResolver implementation.
