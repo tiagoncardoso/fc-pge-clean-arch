@@ -2,10 +2,12 @@ package web
 
 import (
 	"encoding/json"
+	"github.com/go-chi/chi/v5"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/dto"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/usecase"
 	"net/http"
 
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/entity"
-	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/usecase"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/pkg/events"
 )
 
@@ -28,7 +30,7 @@ func NewWebOrderHandler(
 }
 
 func (h *WebOrderHandler) Create(w http.ResponseWriter, r *http.Request) {
-	var dto usecase.OrderInputDTO
+	var dto dto.OrderInputDTO
 	err := json.NewDecoder(r.Body).Decode(&dto)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusBadRequest)
@@ -42,6 +44,37 @@ func (h *WebOrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	err = json.NewEncoder(w).Encode(output)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func (h *WebOrderHandler) FindAll(w http.ResponseWriter, r *http.Request) {
+	findAll := usecase.NewGetOrdersUseCase(h.OrderRepository)
+	orders, err := findAll.Execute()
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(orders)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+}
+
+func (h *WebOrderHandler) FindById(w http.ResponseWriter, r *http.Request) {
+	id := chi.URLParam(r, "id")
+	findById := usecase.NewGetOrderByIdUseCase(h.OrderRepository)
+	order, err := findById.Execute(id)
+	if err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
+
+	err = json.NewEncoder(w).Encode(order)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
