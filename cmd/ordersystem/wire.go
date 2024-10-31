@@ -5,13 +5,13 @@ package main
 
 import (
 	"database/sql"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/usecase"
 
 	"github.com/google/wire"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/entity"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/event"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/infra/database"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/infra/web"
-	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/usecase"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/pkg/events"
 )
 
@@ -39,6 +39,22 @@ func NewCreateOrderUseCase(db *sql.DB, eventDispatcher events.EventDispatcherInt
 		usecase.NewCreateOrderUseCase,
 	)
 	return &usecase.CreateOrderUseCase{}
+}
+
+func NewGetOrdersUseCase(db *sql.DB) *usecase.GetOrdersUseCase {
+	wire.Build(
+		setOrderRepositoryDependency,
+		usecase.NewGetOrdersUseCase,
+	)
+	return &usecase.GetOrdersUseCase{}
+}
+
+func NewGetOrderByIdUseCase(db *sql.DB) *usecase.GetOrderByIdUseCase {
+	wire.Build(
+		setOrderRepositoryDependency,
+		usecase.NewGetOrderByIdUseCase,
+	)
+	return &usecase.GetOrderByIdUseCase{}
 }
 
 func NewWebOrderHandler(db *sql.DB, eventDispatcher events.EventDispatcherInterface) *web.WebOrderHandler {
