@@ -38,6 +38,22 @@ func (suite *OrderRepositoryTestSuite) TestGivenAnOrder_WhenSave_ThenShouldSaveO
 	repo := NewOrderRepository(suite.Db)
 	err = repo.Save(order)
 	suite.NoError(err)
+
+	err = repo.Save(order)
+	suite.Error(err)
+}
+
+func (suite *OrderRepositoryTestSuite) TestGivenAnOrder_WhenCallGetTotalOrders_ThenShouldReturnTotalOrders() {
+	order, err := entity.NewOrder("123", 10.0, 2.0)
+	suite.NoError(err)
+	suite.NoError(order.CalculateFinalPrice())
+	repo := NewOrderRepository(suite.Db)
+	err = repo.Save(order)
+	suite.NoError(err)
+
+	totalOrders, err := repo.GetTotal()
+	suite.NoError(err)
+	suite.Equal(1, totalOrders)
 }
 
 func (suite *OrderRepositoryTestSuite) TestGivenAnOrder_WhenFindOrderById_ThenShouldReturnOrder() {
