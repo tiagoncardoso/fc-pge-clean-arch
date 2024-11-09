@@ -10,6 +10,7 @@ import (
 type Handler struct {
 	Handler http.HandlerFunc
 	Method  string
+	Path    string
 }
 
 type WebServer struct {
@@ -27,29 +28,28 @@ func NewWebServer(serverPort string) *WebServer {
 }
 
 func (s *WebServer) AddHandler(path string, method string, handler http.HandlerFunc) {
-	s.Handlers[path] = Handler{
+	s.Handlers[path+"-"+method] = Handler{
 		handler,
 		method,
+		path,
 	}
 }
 
-// loop through the handlers and add them to the router
-// register middeleware logger
-// start the server
 func (s *WebServer) Start() {
 	s.Router.Use(middleware.Logger)
-	for path, handler := range s.Handlers {
+
+	for _, handler := range s.Handlers {
 		switch handler.Method {
 		case "GET":
-			s.Router.Get(path, handler.Handler)
+			s.Router.Get(handler.Path, handler.Handler)
 		case "POST":
-			s.Router.Post(path, handler.Handler)
+			s.Router.Post(handler.Path, handler.Handler)
 		case "PUT":
-			s.Router.Put(path, handler.Handler)
+			s.Router.Put(handler.Path, handler.Handler)
 		case "DELETE":
-			s.Router.Delete(path, handler.Handler)
+			s.Router.Delete(handler.Path, handler.Handler)
 		default:
-			s.Router.Head(path, handler.Handler)
+			s.Router.Head(handler.Path, handler.Handler)
 		}
 	}
 	http.ListenAndServe(s.WebServerPort, s.Router)
