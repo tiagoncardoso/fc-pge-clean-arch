@@ -2,18 +2,19 @@ package usecase
 
 import (
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/dto"
-	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/entity"
+	entity2 "github.com/tiagoncardoso/fc/pge/clean-arch/internal/domain/entity"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/domain/repository"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/pkg/events"
 )
 
 type CreateOrderUseCase struct {
-	OrderRepository entity.OrderRepositoryInterface
+	OrderRepository repository.OrderRepositoryInterface
 	OrderCreated    events.EventInterface
 	EventDispatcher events.EventDispatcherInterface
 }
 
 func NewCreateOrderUseCase(
-	OrderRepository entity.OrderRepositoryInterface,
+	OrderRepository repository.OrderRepositoryInterface,
 	OrderCreated events.EventInterface,
 	EventDispatcher events.EventDispatcherInterface,
 ) *CreateOrderUseCase {
@@ -25,7 +26,7 @@ func NewCreateOrderUseCase(
 }
 
 func (c *CreateOrderUseCase) Execute(input dto.OrderInputDTO) (dto.OrderOutputDTO, error) {
-	order := entity.Order{
+	order := entity2.Order{
 		ID:    input.ID,
 		Price: input.Price,
 		Tax:   input.Tax,

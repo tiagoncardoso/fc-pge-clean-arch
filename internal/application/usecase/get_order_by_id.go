@@ -2,14 +2,14 @@ package usecase
 
 import (
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/dto"
-	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/entity"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/domain/repository"
 )
 
 type GetOrderByIdUseCase struct {
-	OrderRepository entity.OrderRepositoryInterface
+	OrderRepository repository.OrderRepositoryInterface
 }
 
-func NewGetOrderByIdUseCase(orderRepository entity.OrderRepositoryInterface) *GetOrderByIdUseCase {
+func NewGetOrderByIdUseCase(orderRepository repository.OrderRepositoryInterface) *GetOrderByIdUseCase {
 	return &GetOrderByIdUseCase{
 		OrderRepository: orderRepository,
 	}

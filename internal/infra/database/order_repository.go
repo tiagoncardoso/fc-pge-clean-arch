@@ -2,8 +2,7 @@ package database
 
 import (
 	"database/sql"
-
-	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/entity"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/domain/entity"
 )
 
 type OrderRepository struct {

@@ -5,21 +5,21 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/dto"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/usecase"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/domain/repository"
 	"net/http"
 
-	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/entity"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/pkg/events"
 )
 
 type WebOrderHandler struct {
 	EventDispatcher   events.EventDispatcherInterface
-	OrderRepository   entity.OrderRepositoryInterface
+	OrderRepository   repository.OrderRepositoryInterface
 	OrderCreatedEvent events.EventInterface
 }
 
 func NewWebOrderHandler(
 	EventDispatcher events.EventDispatcherInterface,
-	OrderRepository entity.OrderRepositoryInterface,
+	OrderRepository repository.OrderRepositoryInterface,
 	OrderCreatedEvent events.EventInterface,
 ) *WebOrderHandler {
 	return &WebOrderHandler{
@@ -43,6 +43,9 @@ func (h *WebOrderHandler) Create(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
+
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	err = json.NewEncoder(w).Encode(output)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -58,6 +61,8 @@ func (h *WebOrderHandler) FindAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	err = json.NewEncoder(w).Encode(orders)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
@@ -74,6 +79,8 @@ func (h *WebOrderHandler) FindById(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	w.Header().Set("Content-Type", "application/json")
+	w.WriteHeader(http.StatusOK)
 	err = json.NewEncoder(w).Encode(order)
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)

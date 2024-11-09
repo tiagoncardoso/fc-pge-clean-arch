@@ -10,7 +10,7 @@ import (
 	"database/sql"
 	"github.com/google/wire"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/usecase"
-	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/entity"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/domain/repository"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/event"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/infra/database"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/infra/web"
@@ -51,7 +51,7 @@ func NewWebOrderHandler(db *sql.DB, eventDispatcher events.EventDispatcherInterf
 
 // wire.go:
 
-var setOrderRepositoryDependency = wire.NewSet(database.NewOrderRepository, wire.Bind(new(entity.OrderRepositoryInterface), new(*database.OrderRepository)))
+var setOrderRepositoryDependency = wire.NewSet(database.NewOrderRepository, wire.Bind(new(repository.OrderRepositoryInterface), new(*database.OrderRepository)))
 
 var setEventDispatcherDependency = wire.NewSet(events.NewEventDispatcher, event.NewOrderCreated, wire.Bind(new(events.EventInterface), new(*event.OrderCreated)), wire.Bind(new(events.EventDispatcherInterface), new(*events.EventDispatcher)))
 

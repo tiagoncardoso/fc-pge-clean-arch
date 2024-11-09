@@ -2,11 +2,10 @@ package database
 
 import (
 	"database/sql"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/domain/entity"
 	"testing"
 
 	"github.com/stretchr/testify/suite"
-	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/entity"
-
 	// sqlite3
 	_ "github.com/mattn/go-sqlite3"
 )

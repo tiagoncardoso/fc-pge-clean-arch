@@ -6,9 +6,9 @@ package main
 import (
 	"database/sql"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/usecase"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/domain/repository"
 
 	"github.com/google/wire"
-	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/entity"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/event"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/infra/database"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/infra/web"
@@ -17,7 +17,7 @@ import (
 
 var setOrderRepositoryDependency = wire.NewSet(
 	database.NewOrderRepository,
-	wire.Bind(new(entity.OrderRepositoryInterface), new(*database.OrderRepository)),
+	wire.Bind(new(repository.OrderRepositoryInterface), new(*database.OrderRepository)),
 )
 
 var setEventDispatcherDependency = wire.NewSet(

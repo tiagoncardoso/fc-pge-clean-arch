@@ -5,7 +5,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/dto"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/usecase/mocks"
-	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/entity"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/domain/entity"
 	"testing"
 )
 

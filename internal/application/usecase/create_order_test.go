@@ -3,13 +3,13 @@ package usecase
 import (
 	"errors"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/usecase/mocks"
+	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/domain/entity"
 	"testing"
 	"time"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/mock"
 	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/application/dto"
-	"github.com/tiagoncardoso/fc/pge/clean-arch/internal/entity"
 )
 
 func TestGivenAnOrderInput_WhenICallCreateOrderUseCase_ThenIShouldReceiveOrderOutput(t *testing.T) {
