@@ -43,38 +43,24 @@ DB_DRIVER=mysql                 # Database driver
 DB_HOST=localhost               # Database host (More database details in docker-compose)
 DB_PORT=3306                    # Database port
 DB_USER=root                    # Database user
-DB_PASSWORD=root                # Database password
+DB_PASSWORD=***                 # Database password
 DB_NAME=fc_challenge            # Database name
 WEB_SERVER_PORT=:8000           # Web server port
 GRPC_SERVER_PORT=50051          # gRPC server port
 GRAPHQL_SERVER_PORT=8080        # GraphQL server port
+RABBITMQ_HOST=localhost         # RabbitMQ host
+RABBITMQ_PORT=5672              # RabbitMQ port
+RABBITMQ_USER=guest             # RabbitMQ user
+RABBITMQ_PASSWORD=***           # RabbitMQ password
 ```
-
-> 💡 Os recursos externos MySQL e RabbitMQ são executador por meio de imagens Docker. Caso necessário alterar, poderá ser necessário revisar as variáveis de ambiente no arquivo `.env`.
 
 #### 🚀 Execução:
-Antes de iniciar, é necessário instalar as dependências do projeto. Para isso, execute o comando abaixo:
+Para executar a aplicação, basta utilizar o docker-compose disponível na raiz do projeto. Para isso, execute o comando abaixo:
 ```bash
-$ go mod tidy
+$ docker-compose up
 ```
 
-Para executar a aplicação, existem duas opções:
-
-#### 1. Utilizando o `makefile`:
-Para facilitar a execução da aplicação, todas as etapas necessárias foram adicionadas ao makefile. Para executar a aplicação, basta executar o comando abaixo:
-```bash
-$ make run
-```
-
-#### 2. Executando manualmente:
-Caso a opção anterior falhe, é possível executar a aplicação manualmente, seguindo os passos abaixo:
-```bash
-$ docker-compose up -d
-$ cd cmd/ordersystem
-$ go run ./main.go ./wire_gen.go
-```
-
-> 💡 Os comandos acima poderão falhar caso alguma das portas utilizadas estejam em uso. Caso isso ocorra, será necessário alterar as portas no arquivo `.env` ou encerrar os processos que estão utilizando as portas (8000, 8080, 50051, 3306, 5672 e 15672).
+> 💡 O comando acima poderá falhar caso alguma das portas utilizadas estejam em uso. Caso isso ocorra, será necessário alterar as portas no arquivo `.env` ou encerrar os processos que estão utilizando as portas (8000, 8080, 50051, 3306, 5672 e 15672).
 
 ### 📝 Usando as API's:
 
